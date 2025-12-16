@@ -64,9 +64,9 @@ security_txt! {
     name: "Steal",
     project_url: "https://crownclash.xyz",
     contacts: "discord:crownclash",
-    policy: "https://github.com/crownclash/steal/blob/main/SECURITY.md",
+    policy: "https://github.com/starstarstarstarstarstarstarstar/steal/blob/main/SECURITY.md",
     preferred_languages: "en",
-    source_code: "https://github.com/crownclash/steal",
+    source_code: "https://github.com/starstarstarstarstarstarstarstar/steal",
     auditors: "N/A"
 }
 
