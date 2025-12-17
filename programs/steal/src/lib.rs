@@ -80,7 +80,6 @@ pub mod steal {
         ctx: Context<InitializeGame>,
         jackpot_seed: u64,
         yield_seed: u64,
-        season_start_time: i64,
     ) -> Result<()> {
         // Validate dev and beast wallets are funded (rent-exempt)
         // This prevents InsufficientFundsForRent errors during steals
@@ -125,7 +124,6 @@ pub mod steal {
         game.min_growth_steals_for_war = compute_min_growth_steals_for_war(jackpot_seed);
         game.growth_hard_end_ts = clock.unix_timestamp + GROWTH_MAX_DURATION_SECS;
         game.king_was_vip = false;
-        game.season_start_time = season_start_time;
         game.bump = ctx.bumps.game;
         
         // Note: Vault should be funded with at least jackpot_seed + yield_seed before first steal
@@ -170,12 +168,8 @@ pub mod steal {
         let vault_bump = ctx.bumps.game_vault;
         let vault_seeds: &[&[u8]] = &[b"vault", &[vault_bump]];
         
-        // Block paid steals before season starts
+        // Season check removed - field doesn't exist in on-chain account
         let game = &ctx.accounts.game;
-        require!(
-            clock.unix_timestamp >= game.season_start_time || game.season_start_time == 0,
-            StealError::SeasonNotStarted
-        );
         
         // Validate and deserialize config account if provided (manual validation for backward compatibility)
         // When config is None (null), we skip validation and use game account values
