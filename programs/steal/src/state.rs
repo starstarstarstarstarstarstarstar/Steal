@@ -26,6 +26,8 @@ pub struct GameAccount {
     pub hit_a_lick_end_time: i64,
     /// Whether game is in hit a lick mode
     pub is_hit_a_lick_mode: bool,
+    /// Padding for alignment (matches on-chain account layout)
+    pub _padding: u64,
     /// Current king's wallet (None if no king yet)
     pub current_king: Pubkey,
     /// Timestamp when current king took the crown
@@ -68,8 +70,6 @@ pub struct GameAccount {
     pub growth_hard_end_ts: i64,
     /// Whether current king was VIP (for yield calculation)
     pub king_was_vip: bool,
-    /// Season 1 start timestamp (Unix). Paid steals blocked until this time.
-    pub season_start_time: i64,
     /// Bump seed for PDA
     pub bump: u8,
 }
@@ -86,6 +86,7 @@ impl GameAccount {
         8 + // round_end_time
         8 + // hit_a_lick_end_time (NEW)
         1 + // is_hit_a_lick_mode
+        8 + // _padding (alignment)
         32 + // current_king
         8 + // king_since
         8 + // king_entry_price
@@ -107,7 +108,6 @@ impl GameAccount {
         2 + // min_growth_steals_for_war
         8 + // growth_hard_end_ts
         1 + // king_was_vip
-        8 + // season_start_time
         1; // bump
 }
 
